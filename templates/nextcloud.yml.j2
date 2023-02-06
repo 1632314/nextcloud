@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+{% if nextcloud_database_type == "MARIADB" %}
+  db:
+    container_name: mariadb_nextcloud
+    image: mariadb:10.5
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - {{ nextcloud_database_path }}:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: {{ nextcloud_database_password | string}}
+      MYSQL_PASSWORD: {{ nextcloud_database_password | string }}
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+{% endif %}
+  app:
+    container_name: nextcloud
+    image: nextcloud
+    restart: unless-stopped
+    ports:
+      - {{ nextcloud_docker_port }}:80
+    volumes:
+      - {{ nextcloud_docker_volume_base_path }}:/var/www/html
+{% if nextcloud_database_type != "SQLITE" %}
+    links:
+      - db
+{% endif %}
+    environment:
+      NEXTCLOUD_ADMIN_USER: {{ nextcloud_docker_admin_username }}
+      NEXTCLOUD_ADMIN_PASSWORD: {{ nextcloud_docker_admin_password }}
+      NEXTCLOUD_TRUSTED_DOMAINS: {% for item in nextcloud_docker_trusted_domains %}{{ item }} {% endfor %}
+
+      PHP_MEMORY_LIMIT: {{ nextcloud_docker_php_memory_limit }}
+      PHP_UPLOAD_LIMIT: {{ nextcloud_docker_php_upload_limit }}
+{% if nextcloud_database_type in ["MARIADB", "MYSQL"] %}
+      MYSQL_PASSWORD: {{ nextcloud_database_password }}
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_HOST: db
+{% endif %}
