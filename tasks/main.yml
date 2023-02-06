@@ -6,6 +6,7 @@
   loop:
       - nextcloud
       - mariadb_nextcloud
+      - mysql_nextcloud
   when: nextcloud_docker_clear
 
 - name: 'Clear config for volumes'
