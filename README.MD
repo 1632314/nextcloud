@@ -1,3 +1,10 @@
+# Ansible Role for deploying a Nextcloud container
+This role deploys de latest version of the nextcloud container and optionally sets up a database container with MariaDB or MySQL. Currently de only options.
+## Requirements
+This role requires that docker-compose it's already installed on the target machine. For that you can use @geerlingguy rol for [docker](https://github.com/geerlingguy/ansible-role-docker).
+## Role Variables
+The current variables are as follow:
+```yml
 # Path for saving config of docker
 nextcloud_docker_volume_base_path: "/opt/app/nextcloud"
 # Username and password for admin
@@ -19,3 +26,4 @@ nextcloud_docker_php_memory_limit: 512M
 nextcloud_docker_php_upload_limit: 512M
 # Debug option for clearing containers and volumes
 nextcloud_docker_clear: false
+```
