@@ -23,7 +23,7 @@ services:
     image: nextcloud
     restart: unless-stopped
     ports:
-      - {{ nextcloud_docker_port }}:80
+      - {{ nextcloud_docker_http_port }}:80
     volumes:
       - {{ nextcloud_docker_volume_base_path }}:/var/www/html
 {% if nextcloud_database_type | string | lower in ["mariadb", "mysql"] %}
