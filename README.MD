@@ -1,5 +1,5 @@
 # Ansible Role for deploying a Nextcloud container
-This role deploys de latest version of the nextcloud container and optionally sets up a database container with MariaDB or MySQL. Currently de only options.
+This role deploys de latest version of the nextcloud container and optionally sets up a database container with MariaDB or MySQL. Currently de only options for and external database, SQLite is the option by default.
 ## Requirements
 This role requires that docker-compose it's already installed on the target machine. For that you can use @geerlingguy rol for [docker](https://github.com/geerlingguy/ansible-role-docker).
 ## Role Variables
